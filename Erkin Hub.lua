@@ -87,3 +87,93 @@ local
 fireclickdetector(instance:FindFirstChild("ClickDetector"))
     task.wait(0.1)
 end)
+local Tab = Window:NewTab("Farm")  -- Создаём новую вкладку
+local Section = Tab:NewSection("Auto Farm")  -- Создаём секцию внутри вкладки
+
+-- Кнопка фарма Slapples
+Section:NewButton("AutoFarm Slapples", "Собирает все Slapples на острове", function()
+    if game.Players.LocalPlayer.Character:FindFirstChild("entered") then
+        for i, v in pairs(workspace.Arena.island5.Slapples:GetChildren()) do
+            if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:FindFirstChild("entered") then
+                if (v.Name == "Slapple" or v.Name == "GoldenSlapple") and v:FindFirstChild("Glove") and v.Glove:FindFirstChildWhichIsA("TouchTransmitter") then
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Glove, 0)
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Glove, 1)
+                end
+            end
+        end
+    end
+end)
+
+-- Тумблер автофарма Slapples (будет работать постоянно)
+Section:NewToggle("Auto Slapples", "Автоматически собирать Slapples", function(state)
+    _G.SlappleFarm = state
+    if state then
+        spawn(function()
+            while _G.SlappleFarm do
+                if game.Players.LocalPlayer.Character:FindFirstChild("entered") then
+                    for i, v in pairs(workspace.Arena.island5.Slapples:GetChildren()) do
+                        if (v.Name == "Slapple" or v.Name == "GoldenSlapple") and v:FindFirstChild("Glove") and v.Glove:FindFirstChildWhichIsA("TouchTransmitter") then
+                            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Glove, 0)
+                            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Glove, 1)
+                        end
+                    end
+                end
+                task.wait()
+            end
+        end)
+    end
+end)
+
+-- Тумблер фарма конфет (Candy Corns)
+Section:NewToggle("Auto Candy", "Автоматически собирать конфеты", function(state)
+    _G.CandyFarm = state
+    if state then
+        spawn(function()
+            while _G.CandyFarm do
+                for i, v in pairs(game.Workspace.CandyCorns:GetChildren()) do
+                    if game.Players.LocalPlayer.Character:FindFirstChild("Head") and v:FindFirstChildWhichIsA("TouchTransmitter") then
+                        firetouchinterest(game.Players.LocalPlayer.Character.Head, v, 0)
+                        firetouchinterest(game.Players.LocalPlayer.Character.Head, v, 1)
+                    end
+                end
+                task.wait()
+            end
+        end)
+    end
+end)
+
+-- Тумблер фарма подарков (Gifts)
+Section:NewToggle("Auto Gift", "Автоматически собирать подарки", function(state)
+    _G.GiftFarm = state
+    if state then
+        spawn(function()
+            while _G.GiftFarm do
+                for i, v in pairs(game.Workspace:GetChildren()) do
+                    if v.Name == "Gift" then
+                        firetouchinterest(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"), v, 0)
+                        firetouchinterest(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"), v, 1)
+                    end
+                end
+                task.wait()
+            end
+        end)
+    end
+end)
+
+-- Тумблер фарма сфер (Phase или Jet Orb)
+Section:NewToggle("Auto Orb", "Автоматически собирать Phase/Jet сферы", function(state)
+    _G.OrbFarm = state
+    if state then
+        spawn(function()
+            while _G.OrbFarm do
+                for i, v in pairs(game.Workspace:GetChildren()) do
+                    if v.Name == "JetOrb" or v.Name == "PhaseOrb" then
+                        firetouchinterest(game.Players.LocalPlayer.Character:WaitForChild("Head"), v, 0)
+                        firetouchinterest(game.Players.LocalPlayer.Character:WaitForChild("Head"), v, 1)
+                    end
+                end
+                task.wait()
+            end
+        end)
+    end
+end)
